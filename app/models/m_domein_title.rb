@@ -1,0 +1,2 @@
+class MDomeinTitle < ApplicationRecord
+end

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Urlweb</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+
+
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script type="text/javascript">
+      $(function(){
+        $('.navi_image,.child').mouseover(function(){
+            $('.child').stop().slideDown();
+        }).mouseout(function() {
+            $('.child').stop().slideUp();
+        });
+    });
+    </script>
+  </head>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between">
+    <a class="navbar-brand" href="/top" >
+      <span>サイトストック</span>
+    </a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+
+        <% managefolder %>
+
+        <% @manege_folders.each do |manege_folder| %>
+
+          <li class="nav-item">
+            <a class="nav-link <% if params[:id] == manege_folder.id.to_s %>active<% end %>" href="/top/<%=manege_folder.id%>"><span class="sr-only"></span><%= manege_folder.manage_folder_name%></a>
+          </li>
+
+
+        <% end %>
+        <li class="nav-item">
+          <a data-target="#folder-manage-modal" data-toggle="modal" href="#" >
+            <i class="fas fa-plus"></i>
+          </a>
+        </li>
+
+
+
+      </ul>
+
+
+
+
+    </div>
+
+    <button class="btn btn-link d-sm-none" type="button" data-toggle="modal" data-target="#menuModal" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <%= image_tag('test.jpeg' , :class =>'navi_image') %>
+
+
+  </nav>
+   <ul class="child"><li><a href="#" class="url_link"><%=current_user.username%></a></li>
+       <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete ,:class =>'url_link'%></li>
+   </ul>
+
+  <body>
+
+
+
+
+  <div class="alert_area">
+      <% if flash[:notice] %>
+      <div class="alert alert-success">
+        <%= notice %>
+      </div>
+      <% end %>
+
+      <% if flash[:alert] %>
+      <div class="alert alert-danger">
+        <%= alert %>
+      </div>
+      <% end %>
+  </div>
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <div class="alert_area">
+
+    </div>
+  <% if false %>
+  <%= form_tag({ :controller => 'contents', :action => 'folder_manage_create' },{ :method => :post}) do %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+     <div class="modal fade" id="folder-manage-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+     <div class="modal-dialog modal-xl" role="document">
+     <div class="modal-content">
+     <div class="modal-header">
+     <h5 class="modal-title" id="exampleModalLabel">フォルダ登録</h5>
+     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+     <span aria-hidden="true">×</span>
+     </button>
+     </div>
+     <div class="modal-body text-muted">
+     <div class="row">
+     <div class="col-12">
+     <div class="row">
+
+     <div class="col-12">
+     <div class="input-group input-group mb-3">
+     <div class="input-group-prepend">
+     <span class="input-group-text" id="inputGroup-sizing-lg">
+     <i class="fas fa-sticky-note"></i>
+     </span>
+     </div>
+      <input type="text" name="ipt_manage_folder_name" id="mock-link-edit-url-form" value="" class="form-control" placeholder="フォルダ名" maxlength="200">
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     <div class="modal-footer">
+     <input type="hidden" id="update_id" name="update_id" value="">
+     <button class="btn btn-primary" id="mock_link_edit_btn" type="submit">登録</button>
+     <button class="btn btn-secondary" data-dismiss="modal" type="button">閉じる</button>
+     </div>
+     </div>
+     </div>
+     </div>
+     </div>
+     <% end %>
+     <% end %>
+  </body>
+</html>

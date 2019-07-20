@@ -1,0 +1,2 @@
+class MBaitai < ApplicationRecord
+end

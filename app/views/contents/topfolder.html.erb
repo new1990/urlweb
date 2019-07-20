@@ -1,0 +1,273 @@
+<script type="text/javascript">
+function open_url_list(id){
+
+  var name = $("#folder_name_"+id).val();
+
+  $(".bottom_content_info").hide();
+  $(".bottom_content_main").show();
+  $(".url_code").hide();
+  $(".site_"+id).show();
+  $(".site_name").text(name);
+
+
+}
+
+
+
+function modelvale(id){
+
+  var url = $('input[name="url_'+id+'"]').val();
+  var title = $('input[name="title_'+id+'"]').val();
+  $("#mock-link-edit-url-form").val(url);
+  $("#mock-link-edit-comment-form").val(title);
+  $("#update_id").val(id);
+}
+
+
+function delid(id){
+  $("#deleting-link-id").val(id);
+}
+function folder_delid(id){
+  $("#deleting-folder-id").val(id);
+}
+
+$(function(){
+  setTimeout("$('.alert').fadeOut('slow')", 3000)
+})
+
+</script>
+
+<div id="all_item">
+  <div class ="row top_main" id="main">
+        <div class="col-md-3 col-md-offset-2 addbox">
+          <!-- <i class="fas fa-folder-plus my-big"></i> -->
+          <i class="far fa-plus-square my-big" data-toggle="modal" data-target="#testModal"></i>
+        </div>
+        <% @folders.each do |folder| %>
+          <div class="col-md-3 col-md-offset-2 folderbox" >
+            <div class="col-12 del_space">
+              <i class="fas fa-times del_icon" data-target="#folder-delete-modal" data-toggle="modal" onclick="folder_delid(<%= folder.id %>);"></i>
+            </div>
+            <div class="col-12 pic" onclick="open_url_list(<%= folder.id %>);">
+            <% if folder.favicon.nil? %>
+              <img class="img_favi" src="" alt="Card image cap">
+            <% else %>
+              <img class="img_favi" src="<%= folder.favicon %>" alt="url">
+            <% end %>
+            </div>
+            <div class="col-12 name" onclick="open_url_list(<%= folder.id %>);">
+            <% if folder.name.length > 15 %>
+              <span><%= folder.name.to_str[0,13] %></span>
+            <% else %>
+              <span><%= folder.name %></span>
+            <% end %>
+            </div>
+            <input type="hidden" id ="folder_name_<%= folder.id %>" value="<%= folder.name %>" disable>
+          </div>
+        <% end %>
+  </div>
+  <div id="" class="bottom_content">
+    <div class="bottom_content_info" >
+
+
+          <div class="card" >
+             <div class="card-header"><i class="fas fa-info-circle content-header-action"></i>サイトストックとは？</div>
+
+            <div class="card-body" >
+              <p class="card-text">登録したURLをここに表示することが出来ます。<BR>上部のwebサイト一覧をクリックしてください。</p>
+            </div>
+          </div>
+
+    </div>
+    <div class="bottom_content_main" >
+    <div class="card" >
+     <div class="card-header site_name"></div>
+     <div class="card-body" >
+    <% @contents.each do |content| %>
+      <div class="col-12 url_code site_<%= content.file_id %>" style="display:none;">
+        <a title="<%= content.url %>" href="<%= content.url %>" target="_blank"><%= content.title %></a>
+
+          <input type="hidden" name="title_<%= content.id %>" value="<%= content.title %>">
+          <input type="hidden" name="url_<%= content.id %>" value="<%= content.url %>">
+
+
+
+      <!-- <a  href="#"  >
+        <i class="fas fa-info-circle content-header-action"></i>
+      </a> -->
+      <a data-target="#link-edit-modal" data-toggle="modal" href="#"  onclick="modelvale(<%= content.id %>);">
+      <i class="fas fa-edit link-action"></i>
+      </a>
+      <a data-target="#link-delete-modal" data-toggle="modal" href="#" onclick="delid(<%= content.id %>);">
+        <i class="fas fa-trash-alt content-header-action"></i>
+      </a>
+      <a href="#" id="mock-link-sort-button">
+        <i class="fas fa-sort content-header-action"></i>
+      </a>
+
+
+      </div>
+
+    <% end %>
+    </div>
+    </div>
+  </div>
+  </div>
+</div>
+
+
+        <!-- ボタン・リンククリック後に表示される画面の内容 -->
+   <div class="modal fade" id="testModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+     <!-- <form id="folder-create-form" action="create" accept-charset="UTF-8" method="post"> -->
+     <%= form_tag({ :controller => 'contents', :action => 'create' },{ :method => :post}) do %>
+       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h4 class="modal-title" id="myModalLabel">URL登録</h4>
+               </div>
+               <div class="modal-body">
+                <div class="input-group input-group mb-3">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-lg">
+                <i class="fa fa-link"></i>
+                </span>
+                </div>
+                  <input type="text" name="ipt_url" id="folder_name" value="" class="form-control" placeholder="URL" maxlength="200">
+                </div>
+
+                <div class="input-group input-group mb-3">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-lg">
+                <i class="fas fa-sticky-note"></i>
+                </span>
+                </div>
+                  <textarea name="ipt_memo" id="link-create-comment-form" class="form-control" placeholder="メモ" maxlength="400"></textarea>
+                </div>
+               </div>
+               <div class="modal-footer">
+                   <input type="submit" value="登録" id="folder_create_btn" class="btn btn-primary" data-disable-with="登録">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+               </div>
+           </div>
+       </div>
+      <input type="hidden" name="ipt_folder_id"  value="<%= @manage_folders_id%>" >
+<% end %>
+       <!-- </form> -->
+     </div>
+
+
+<form  action="update" accept-charset="UTF-8" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+ <div class="modal fade" id="link-edit-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+ <div class="modal-dialog modal-xl" role="document">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h5 class="modal-title" id="exampleModalLabel">ブックマーク変更</h5>
+ <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+ <span aria-hidden="true">×</span>
+ </button>
+ </div>
+ <div class="modal-body text-muted">
+ <div class="row">
+ <div class="col-12">
+ <div class="row">
+ <div class="col-12">
+ <div class="input-group input-group mb-3">
+ <div class="input-group-prepend">
+ <span class="input-group-text" id="inputGroup-sizing-lg">
+ <i class="fa fa-link"></i>
+ </span>
+ </div>
+ <input type="text" name="ipt_url" id="mock-link-edit-url-form" value="" class="form-control" placeholder="URL" readonly maxlength="2000">
+ </div>
+ </div>
+ <div class="col-12">
+ <div class="input-group input-group mb-3">
+ <div class="input-group-prepend">
+ <span class="input-group-text" id="inputGroup-sizing-lg">
+ <i class="fas fa-sticky-note"></i>
+ </span>
+ </div>
+ <textarea name="ipt_title" id="mock-link-edit-comment-form" class="form-control" placeholder="メモ" maxlength="400"></textarea>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="modal-footer">
+ <input type="hidden" id="update_id" name="update_id" value="">
+ <button class="btn btn-primary" id="mock_link_edit_btn" type="submit">変更</button>
+ <button class="btn btn-secondary" data-dismiss="modal" type="button">閉じる</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </form>
+
+<form  action="delete" accept-charset="UTF-8" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+ <div aria-labelledby="myModalLabel" class="modal fade" id="link-delete-modal" role="dialog" tabindex="-1"  aria-modal="true">
+ <div class="modal-dialog modal-xl" role="document">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h5 class="modal-title" id="exampleModalLabel">ブックマーク削除</h5>
+ <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+ <span aria-hidden="true">×</span>
+ </button>
+ </div>
+ <div class="modal-body text-muted">
+ <div class="row">
+ <div class="col-12">
+ <div style="margin-bottom:10px;">
+ ブックマークを削除します。
+ </div>
+ </div>
+ </div>
+ <div class="modal-footer">
+ <input type="hidden" name="delete_id" id="deleting-link-id" value="">
+ <button class="btn btn-danger" id="mock_link_delete_btn" type="submit">削除</button>
+ <button class="btn btn-secondary" data-dismiss="modal" type="button">閉じる</button>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </form>
+
+<form  action="folderdelete" accept-charset="UTF-8" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+ <div aria-labelledby="myModalLabel" class="modal fade" id="folder-delete-modal" role="dialog" tabindex="-1"  aria-modal="true">
+  <input type="hidden" name="folder_delete_id" id="deleting-folder-id" value="">
+ <div class="modal-dialog modal-xl" role="document">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h5 class="modal-title" id="exampleModalLabel">フォルダー削除</h5>
+ <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+ <span aria-hidden="true">×</span>
+ </button>
+ </div>
+ <div class="modal-body text-muted">
+ <div class="row">
+ <div class="col-12">
+ <div style="margin-bottom:10px;">
+ フォルダーを削除します。
+ <br>
+ <span class="warning">
+ <i class="fas fa-exclamation-triangle">フォルダーに紐づくブックマークも同時に削除されます。</i>
+ </span>
+ </div>
+ </div>
+ </div>
+ <div class="modal-footer">
+<button class="btn btn-danger" id="mock_link_delete_btn" type="submit">削除</button>
+ <button class="btn btn-secondary" data-dismiss="modal" type="button">閉じる</button>
+
+
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+</form>

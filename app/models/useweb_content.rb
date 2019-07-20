@@ -1,0 +1,2 @@
+class UsewebContent < ApplicationRecord
+end
