@@ -29,7 +29,7 @@ require 'mechanize'
       end
     else
       flash[:alert] = "urlが不正です"
-      redirect_to("/top") and return
+      redirect_to("/") and return
     end
 
     if @domein.empty?
@@ -84,7 +84,7 @@ require 'mechanize'
     end
 
     if @manage_folders_id.nil?
-      redirect_to("/top") and return
+      redirect_to("/") and return
     else
       redirect_to("/top/#{@manage_folders_id}") and return
     end
@@ -102,7 +102,7 @@ require 'mechanize'
       flash[:alert] = "保存に失敗しました"
     end
 
-    redirect_to("/top")
+    redirect_to("/")
   end
 
   def delete
@@ -112,7 +112,7 @@ require 'mechanize'
     else
       flash[:alert] = "削除に失敗しました"
     end
-    redirect_to("/top")
+    redirect_to("/")
   end
 
   def folderdelete
@@ -122,7 +122,7 @@ require 'mechanize'
     else
       flash[:alert] = "削除に失敗しました"
     end
-    redirect_to("/top")
+    redirect_to("/")
   end
 
   def folder_manage_create
@@ -133,7 +133,7 @@ require 'mechanize'
     else
       flash[:alert] = "登録に失敗しました"
     end
-    redirect_to("/top")
+    redirect_to("/")
   end
 
   def folder_manage_delete
@@ -143,7 +143,7 @@ require 'mechanize'
     else
       flash[:alert] = "削除に失敗しました"
     end
-    redirect_to("/top")
+    redirect_to("/")
   end
 
 

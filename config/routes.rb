@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   devise_for :users
-   get "top" => "contents#top"
+   get "/" => "contents#top"
    get "top/:id" => "contents#topfolder"
    post "create" => "contents#create"
    post "update" => "contents#update"
