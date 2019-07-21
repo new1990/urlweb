@@ -61,10 +61,11 @@
 
 
   </nav>
+  <% if false %>
    <ul class="child"><li><a href="#" class="url_link"><%=current_user.username%></a></li>
        <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete ,:class =>'url_link'%></li>
    </ul>
-
+  <% end %>
   <body>
 
 
