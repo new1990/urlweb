@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Urlweb</title>
+    <title>サイトストック</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,6 +20,14 @@
             $('.child').stop().slideUp();
         });
     });
+    function go_serch(id){
+      if (!isNaN(id)){
+        document.myform.action = "/top/"+id;
+
+      }else{
+          document.myform.action = "/";
+       }
+    }
     </script>
   </head>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between">
@@ -57,6 +65,14 @@
     <button class="btn btn-link d-sm-none" type="button" data-toggle="modal" data-target="#menuModal" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <form name="myform" method="get">
+    <input type="text" class="form-control" name="serch" value="" style="width:200px;"placeholder="検索" maxlength="50">
+    <span class="input-group-btn">
+      <button class="btn btn-default" onclick="go_serch(<%= params[:id] %>)">
+        <i class="fas fa-search"></i>
+      </button>
+    </span>
+    </form>
     <%= image_tag('test.jpeg' , :class =>'navi_image') %>
 
 
