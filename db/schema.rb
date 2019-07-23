@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_30_155301) do
+ActiveRecord::Schema.define(version: 2019_07_22_145847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "contents", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "file_id"
+    t.integer "folder_id"
     t.integer "status_flg"
     t.text "favicon"
     t.text "title"
@@ -35,6 +35,11 @@ ActiveRecord::Schema.define(version: 2019_06_30_155301) do
     t.integer "stutas_flg"
     t.string "favicon"
     t.integer "manage_folders_id"
+  end
+
+  create_table "m_baitais", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "m_domein_titles", force: :cascade do |t|

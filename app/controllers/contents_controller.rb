@@ -3,14 +3,26 @@ require 'mechanize'
 
   def top
     @contents  = Content.all
-    @folders  = Folder.all
+
     @manege_folders  = TManageFolder.all
+    if params[:serch].nil?
+      @folders  = Folder.all
+    elsif
+      @serch = params[:serch]
+      @folders =Folder.joins(:contents).where(contents: { title: params[:serch]})
+    end
   end
 
   def topfolder
-    @folders  = Folder.where(manage_folders_id: params[:id])
+
     @contents  = Content.all
     @manage_folders_id = params[:id]
+    if params[:serch].nil?
+      @folders  = Folder.where(manage_folders_id: params[:id])
+    elsif
+      @serch = params[:serch]
+      @folders =Folder.joins(:contents).where(manage_folders_id: params[:id],contents: { title: params[:serch]})
+    end
   end
 
   def create
@@ -74,7 +86,7 @@ require 'mechanize'
        @folder_id = @folder.id
      end
 
-    @content=Content.new(user_id: @user,file_id: @folder_id,
+    @content=Content.new(user_id: @user,folder_id: @folder_id,
       status_flg: @origin_flag,title: params[:ipt_memo],
       url: params[:ipt_url])
     if @content.save

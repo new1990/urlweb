@@ -84,7 +84,7 @@ $(function(){
      <div class="card-header site_name"></div>
      <div class="card-body" >
     <% @contents.each do |content| %>
-      <div class="col-12 url_code site_<%= content.file_id %>" style="display:none;">
+      <div class="col-12 url_code site_<%= content.folder_id %>" style="display:none;">
         <a title="<%= content.url %>" href="<%= content.url %>" target="_blank"><%= content.title %></a>
 
           <input type="hidden" name="title_<%= content.id %>" value="<%= content.title %>">

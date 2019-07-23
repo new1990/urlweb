@@ -65,8 +65,8 @@
     <button class="btn btn-link d-sm-none" type="button" data-toggle="modal" data-target="#menuModal" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <form name="myform" method="get">
-    <input type="text" class="form-control" name="serch" value="" style="width:200px;"placeholder="検索" maxlength="50">
+    <form name="myform" method="get" style="display:inline;">
+    <input type="text" class="form-control" name="serch" value="<%= @serch %>" required style="width:200px;"placeholder="検索" maxlength="50">
     <span class="input-group-btn">
       <button class="btn btn-default" onclick="go_serch(<%= params[:id] %>)">
         <i class="fas fa-search"></i>
