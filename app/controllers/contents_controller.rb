@@ -5,7 +5,7 @@ require 'mechanize'
     @contents  = Content.all
 
     @manege_folders  = TManageFolder.all
-    if params[:serch].nil?
+    if params[:serch].blank?
       @folders  = Folder.all
     elsif
       @serch = params[:serch]
@@ -17,7 +17,7 @@ require 'mechanize'
 
     @contents  = Content.all
     @manage_folders_id = params[:id]
-    if params[:serch].nil?
+    if params[:serch].blank?
       @folders  = Folder.where(manage_folders_id: params[:id])
     elsif
       @serch = params[:serch]

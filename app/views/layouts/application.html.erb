@@ -30,6 +30,10 @@
     }
     </script>
   </head>
+
+
+  <% if current_user.nil? %>
+  <% else %>
   <nav class="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between">
     <a class="navbar-brand" href="/" >
       <span>サイトストック</span>
@@ -65,19 +69,24 @@
     <button class="btn btn-link d-sm-none" type="button" data-toggle="modal" data-target="#menuModal" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <form name="myform" method="get" style="display:inline;">
-    <input type="text" class="form-control" name="serch" value="<%= @serch %>" required style="width:200px;"placeholder="検索" maxlength="50">
+
+    <form name="myform" method="get" style="display:inline-flex">
+    <input type="text" class="form-control" name="serch" value="<%= @serch %>"  style="width:200px;"placeholder="検索" maxlength="50">
     <span class="input-group-btn">
       <button class="btn btn-default" onclick="go_serch(<%= params[:id] %>)">
         <i class="fas fa-search"></i>
       </button>
     </span>
     </form>
+
     <%= image_tag('test.jpeg' , :class =>'navi_image') %>
 
 
   </nav>
-  <% if false %>
+  <% end %>
+
+  <% if current_user.nil? %>
+  <% else %>
    <ul class="child"><li><a href="#" class="url_link"><%=current_user.username%></a></li>
        <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete ,:class =>'url_link'%></li>
    </ul>
@@ -107,7 +116,8 @@
     <div class="alert_area">
 
     </div>
-  <% if false %>
+  <% if current_user.nil? %>
+  <% else %>
   <%= form_tag({ :controller => 'contents', :action => 'folder_manage_create' },{ :method => :post}) do %>
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
      <div class="modal fade" id="folder-manage-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
