@@ -9,7 +9,7 @@ require 'mechanize'
       @folders  = Folder.all
     elsif
       @serch = params[:serch]
-      @folders =Folder.joins(:contents).where(contents: { title: params[:serch]})
+      @folders =Folder.joins(:contents).where('contents.title LIKE ?',"%#{params[:serch]}%")
     end
   end
 
@@ -21,7 +21,7 @@ require 'mechanize'
       @folders  = Folder.where(manage_folders_id: params[:id])
     elsif
       @serch = params[:serch]
-      @folders =Folder.joins(:contents).where(manage_folders_id: params[:id],contents: { title: params[:serch]})
+      @folders =Folder.joins(:contents).where(manage_folders_id: params[:id]).where('contents.title LIKE ?',"%#{params[:serch]}%")
     end
   end
 
@@ -57,6 +57,7 @@ require 'mechanize'
         # マスターにない場合登録
         url = @domein
         agent = Mechanize.new
+        agent.user_agent_alias = "Windows Mozilla"
         page = agent.get(url)
         @name = page.search('title')[0].inner_text
         @m_domein_title=MDomeinTitle.new(title: @name,domein: @domein)

@@ -45,6 +45,15 @@ function folder_delid(id){
 
 $(function(){
   setTimeout("$('.alert').fadeOut('slow')", 3000)
+  <% @folders.each do |folder| %>
+  $('#f_'+<%= folder.id %>).hover(function(){
+  $('#d_'+<%= folder.id %>).css('display','block');
+  },function(){
+  $('#d_'+<%= folder.id %>).css('display','none');
+  });
+
+  <% end %>
+
 })
 
 </script>
@@ -56,9 +65,9 @@ $(function(){
           <i class="far fa-plus-square my-big" data-toggle="modal" data-target="#testModal"></i>
         </div>
         <% @folders.each do |folder| %>
-          <div class="col-md-3 col-md-offset-2 folderbox" >
+          <div class="col-md-3 col-md-offset-2 folderbox" id="f_<%= folder.id %>">
             <div class="col-12 del_space">
-              <i class="fas fa-times del_icon" data-target="#folder-delete-modal" data-toggle="modal" onclick="folder_delid(<%= folder.id %>);"></i>
+              <i id="d_<%= folder.id %>" class="fas fa-times del_icon" style="display:none;" data-target="#folder-delete-modal" data-toggle="modal" onclick="folder_delid(<%= folder.id %>);"></i>
             </div>
             <div class="col-12 pic" onclick="open_url_list(<%= folder.id %>);">
             <% if folder.favicon.nil? %>
