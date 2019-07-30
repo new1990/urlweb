@@ -43,7 +43,7 @@
       <ul class="navbar-nav">
 
         <% managefolder %>
-        <% if @manege_folders.count > 6 %>
+
           <% @manege_folders.each do |manege_folder| %>
 
             <li class="nav-item">
@@ -51,6 +51,9 @@
             </li>
 
 
+          <% end %>
+        <% if false %>
+          <% if @manege_folders.count > 6 %>
           <% end %>
         <% end %>
 
