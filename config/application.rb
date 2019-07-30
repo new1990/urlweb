@@ -14,7 +14,7 @@ module Urlweb
     config.load_defaults 5.2
     config.autoload_paths << Rails.root.join("lib")
     config.assets.initialize_on_precompile = false
-    config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 1.minutes }
+    # config.cache_store = :redis_store, "redis://localhost:6379/0/cache", { expires_in: 1.minutes }
 
 
     # Settings in config/environments/* take precedence over those specified here.
