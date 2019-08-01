@@ -164,8 +164,8 @@ $(function(){
        <!-- </form> -->
      </div>
 
+<%= form_tag('/update', method: :post) do %>
 
-<form  action="update" accept-charset="UTF-8" method="post">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
  <div class="modal fade" id="link-edit-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
  <div class="modal-dialog modal-xl" role="document">
@@ -212,9 +212,10 @@ $(function(){
  </div>
  </div>
  </div>
- </form>
+<% end %>
 
-<form  action="delete" accept-charset="UTF-8" method="post">
+<%= form_tag('/delete', method: :post) do %>
+
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
  <div aria-labelledby="myModalLabel" class="modal fade" id="link-delete-modal" role="dialog" tabindex="-1"  aria-modal="true">
  <div class="modal-dialog modal-xl" role="document">
@@ -242,12 +243,15 @@ $(function(){
  </div>
  </div>
  </div>
- </form>
+ <% end %>
 
-<form  action="folderdelete" accept-charset="UTF-8" method="post">
+
+ <%= form_tag('/folderdelete', method: :post) do %>
+
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
  <div aria-labelledby="myModalLabel" class="modal fade" id="folder-delete-modal" role="dialog" tabindex="-1"  aria-modal="true">
   <input type="hidden" name="folder_delete_id" id="deleting-folder-id" value="">
+  <input type="hidden" name="folder_delete_flg" value="1">
  <div class="modal-dialog modal-xl" role="document">
  <div class="modal-content">
  <div class="modal-header">
@@ -278,4 +282,4 @@ $(function(){
  </div>
  </div>
  </div>
-</form>
+<% end %>

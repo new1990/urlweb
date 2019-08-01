@@ -2,14 +2,14 @@ class ContentsController < ApplicationController
 require 'mechanize'
 
   def top
-    @contents  = Content.all
+    @contents  = Content.where(user_id: current_user.id)
 
-    @manege_folders  = TManageFolder.all
+    @manege_folders  = TManageFolder.where(user_id: current_user.id)
     if params[:serch].blank?
-      @folders  = Folder.all
+      @folders  = Folder.where(user_id: current_user.id)
     elsif
       @serch = params[:serch]
-      @folders =Folder.joins(:contents).where('contents.title LIKE ?',"%#{params[:serch]}%")
+      @folders =Folder.joins(:contents).where('contents.title LIKE ?',"%#{params[:serch]}%").where(user_id: current_user.id)
     end
   end
 
@@ -68,7 +68,7 @@ require 'mechanize'
 
 
     if params[:ipt_folder_name]
-      @folder=TManageFolder.new(user_id: @user,manage_folder_name: params[:ipt_folder_name])
+      @folder=TManageFolder.new(user_id: current_user.id,manage_folder_name: params[:ipt_folder_name])
       @folder.save
       @manage_folders_id = @folder.id
     elsif params[:ipt_folder_id]
@@ -81,13 +81,13 @@ require 'mechanize'
      if @domein_chk.count > 0
        @folder_id = @domein_chk.first.id
      else
-       @folder=Folder.new(user_id: @user,name: @name,
+       @folder=Folder.new(user_id: current_user.id,name: @name,
          domein: @domein,stutas_flg: @origin_flag,favicon: @favicon,manage_folders_id: @manage_folders_id)
        @folder.save
        @folder_id = @folder.id
      end
 
-    @content=Content.new(user_id: @user,folder_id: @folder_id,
+    @content=Content.new(user_id: current_user.id,folder_id: @folder_id,
       status_flg: @origin_flag,title: params[:ipt_memo],
       url: params[:ipt_url])
     if @content.save
@@ -140,7 +140,7 @@ require 'mechanize'
 
   def folder_manage_create
 
-    @folder=TManageFolder.new(user_id: @user,manage_folder_name: params[:ipt_manage_folder_name])
+    @folder=TManageFolder.new(user_id: current_user.id,manage_folder_name: params[:ipt_manage_folder_name])
     if @folder.save
       flash[:notice] = "登録が完了しました"
     else
